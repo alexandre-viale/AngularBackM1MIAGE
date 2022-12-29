@@ -1,12 +1,16 @@
 let express = require('express');
 let app = express();
+let cors = require('cors')
 let bodyParser = require('body-parser');
 let assignment = require('./routes/assignments');
+let user = require('./routes/user');
+let auth = require('./routes/auth');
 require('dotenv').config();
 let mongoose = require('mongoose');
+const { hashPassword } = require('./utils');
 mongoose.Promise = global.Promise;
 //mongoose.set('debug', true);
-
+app.use(cors())
 // remplacer toute cette chaine par l'URI de connexion à votre propre base dans le cloud s
 const uri = process.env.MONGODB;
 
@@ -44,16 +48,17 @@ let port = process.env.PORT || 8010;
 const prefix = '/api';
 
 app.route(prefix + '/assignments')
-  .get(assignment.getAssignments);
+  .get(auth.authenticateToken, assignment.getAssignments)
+  .post(auth.authenticateToken, assignment.postAssignment)
+  .put(auth.authenticateToken, assignment.updateAssignment);
 
 app.route(prefix + '/assignments/:id')
-  .get(assignment.getAssignment)
-  .delete(assignment.deleteAssignment);
+  .get(auth.authenticateToken, assignment.getAssignment)
+  .delete(auth.authenticateToken, assignment.deleteAssignment);
+  
 
-
-app.route(prefix + '/assignments')
-  .post(assignment.postAssignment)
-  .put(assignment.updateAssignment);
+app.route(prefix + '/user/login')
+  .post(user.login);
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");
