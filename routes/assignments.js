@@ -1,4 +1,4 @@
-let Assignment = require('../model/assignment');
+const Assignment = require('../model/assignment');
 var ObjectID = require('mongodb').ObjectID;
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res){
@@ -14,7 +14,8 @@ function getAssignments(req, res){
                 res.send(err)
             }
             res.send(assignments);
-    });
+        },
+    );
 }
 
 // Récupérer un assignment par son id (GET)
@@ -22,8 +23,8 @@ function getAssignment(req, res){
     let assignmentId = req.params.id;
     console.log(req.params.id);
     Assignment.findOne({_id: assignmentId}, (err, assignment) =>{
-        if(err){res.send(err)}
-        res.json(assignment);
+      if(err){res.send(err)}
+      res.json(assignment);
     })
 }
 
@@ -39,11 +40,11 @@ function postAssignment(req, res){
     console.log(assignment)
 
     assignment.save( (err) => {
-        console.log(err);
-        if(err){
-            res.json(err);
-        }
-        res.json({"message":`${assignment.nom} saved!`})
+      console.log(err);
+      if(err){
+          res.json(err);
+      }
+      res.json({"message":`${assignment.nom} saved!`})
     })
 }
 
@@ -67,12 +68,12 @@ function updateAssignment(req, res) {
 // suppression d'un assignment (DELETE)
 function deleteAssignment(req, res) {
 
-    Assignment.findByIdAndRemove(req.params.id, (err, assignment) => {
-        if (err) {
-            res.send(err);
-        }
-        res.json({message: `${assignment.nom} deleted`});
-    })
+  Assignment.findByIdAndRemove(req.params.id, (err, assignment) => {
+      if (err) {
+          res.send(err);
+      }
+      res.json({message: `${assignment.nom} deleted`});
+  })
 }
 
 
