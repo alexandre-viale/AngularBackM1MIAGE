@@ -33,7 +33,7 @@ function postAssignment(req, res){
     let assignment = new Assignment();
     assignment._id = new ObjectID();
     assignment.nom = req.body.nom;
-    assignment.dateDeRendu = req.body.dateDeRendu;
+    assignment.dateRendu = req.body.dateRendu;
     assignment.rendu = req.body.rendu;
 
     console.log("POST assignment reçu :");
