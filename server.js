@@ -7,7 +7,6 @@ let user = require('./routes/user');
 let auth = require('./routes/auth');
 require('dotenv').config();
 let mongoose = require('mongoose');
-const { hashPassword } = require('./utils');
 mongoose.Promise = global.Promise;
 //mongoose.set('debug', true);
 app.use(cors())
@@ -59,7 +58,6 @@ app.route(prefix + '/assignments/:id')
 
 app.route(prefix + '/user/login')
   .post(user.login);
-
 // On démarre le serveur
 app.listen(port, "0.0.0.0");
 console.log('Serveur démarré sur http://localhost:' + port);

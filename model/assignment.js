@@ -3,8 +3,9 @@ var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 let Schema = mongoose.Schema;
 
 let AssignmentSchema = Schema({
+    _id: Schema.Types.ObjectId,
     id: Number,
-    dateDeRendu: Date,
+    dateRendu: String,
     nom: String,
     rendu: Boolean
 });
