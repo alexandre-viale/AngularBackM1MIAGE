@@ -35,6 +35,8 @@ function postAssignment(req, res){
     assignment.nom = req.body.nom;
     assignment.dateRendu = req.body.dateRendu;
     assignment.rendu = req.body.rendu;
+    assignment.grade = req.body.grade;
+    assignment.subject = req.body.subject;
 
     console.log("POST assignment reçu :");
     console.log(assignment)

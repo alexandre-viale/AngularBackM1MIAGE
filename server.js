@@ -3,6 +3,7 @@ let app = express();
 let cors = require('cors')
 let bodyParser = require('body-parser');
 let assignment = require('./routes/assignments');
+let subject = require('./routes/subjects');
 let user = require('./routes/user');
 let auth = require('./routes/auth');
 require('dotenv').config();
@@ -55,6 +56,14 @@ app.route(prefix + '/assignments/:id')
   .get(auth.authenticateToken, assignment.getAssignment)
   .delete(auth.authenticateToken, assignment.deleteAssignment);
   
+app.route(prefix + '/subjects')
+  .get(auth.authenticateToken, subject.getSubjects)
+  .post(auth.authenticateToken, subject.postSubject)
+  .put(auth.authenticateToken, subject.updateSubject);
+
+app.route(prefix + '/subjects/:id')
+  .get(auth.authenticateToken, subject.getSubject)
+  .delete(auth.authenticateToken, subject.deleteSubject);
 
 app.route(prefix + '/user/login')
   .post(user.login);
