@@ -3,7 +3,6 @@ var ObjectID = require('mongodb').ObjectID;
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res){
     var aggregateQuery = Assignment.aggregate();
-    console.log(req.query);
     Assignment.aggregatePaginate(aggregateQuery,
         {
           page: parseInt(req.query.page) || 1,
@@ -21,7 +20,6 @@ function getAssignments(req, res){
 // Récupérer un assignment par son id (GET)
 function getAssignment(req, res){
     let assignmentId = req.params.id;
-    console.log(req.params.id);
     Assignment.findOne({_id: assignmentId}, (err, assignment) =>{
       if(err){res.send(err)}
       res.json(assignment);
@@ -53,7 +51,6 @@ function postAssignment(req, res){
 // Update d'un assignment (PUT)
 function updateAssignment(req, res) {
     console.log("UPDATE recu assignment : ");
-    console.log(req.body);
     Assignment.findByIdAndUpdate(req.body._id, req.body, {new: true}, (err, assignment) => {
         if (err) {
             console.log(err);
@@ -69,12 +66,12 @@ function updateAssignment(req, res) {
 
 // suppression d'un assignment (DELETE)
 function deleteAssignment(req, res) {
-
   Assignment.findByIdAndRemove(req.params.id, (err, assignment) => {
       if (err) {
           res.send(err);
       }
-      res.json({message: `${assignment.nom} deleted`});
+      res.json({message: 'deleted'})
+      // res.json({message: `${assignment.nom} deleted`});
   })
 }
 
