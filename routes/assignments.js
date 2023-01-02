@@ -3,28 +3,32 @@ var ObjectID = require('mongodb').ObjectID;
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res){
   filters = JSON.parse(req.query.filters);
-  console.log(filters);
-    var aggregateQuery = Assignment.aggregate([
-    {
-      $match: {
-        $and: [
-          // {nom: {$regex: req.query.filters.nom, $options: 'i'}},
-          {rendu: filters.rendu},
-        ]
-      }
-    }]);
-    Assignment.aggregatePaginate(aggregateQuery,
-        {
-          page: parseInt(req.query.page) || 1,
-          limit: parseInt(req.query.limit) || 10,
-        },
-        (err, assignments) => {
-            if(err){
-                res.send(err)
-            }
-            res.send(assignments);
-        },
-    );
+  sort = JSON.parse(req.query.sort);
+  pipeline = [];
+  if(sort.field && sort.order) {
+    pipeline.push({ $sort: { [sort.field]: sort.order } });
+  }
+  pipeline.push({
+    $match: {
+      $and: [
+        filters.nom ? {nom: {$regex: filters.nom, $options: 'i'}} : {},
+        {rendu: filters.rendu},
+      ]
+    }
+  });
+  const aggregateQuery = Assignment.aggregate(pipeline);
+  Assignment.aggregatePaginate(aggregateQuery,
+      {
+        page: parseInt(req.query.page) || 1,
+        limit: parseInt(req.query.limit) || 10,
+      },
+      (err, assignments) => {
+          if(err){
+              res.send(err)
+          }
+          res.send(assignments);
+      },
+  );
 }
 
 // Récupérer un assignment par son id (GET)
