@@ -2,7 +2,17 @@ const Assignment = require('../model/assignment');
 var ObjectID = require('mongodb').ObjectID;
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res){
-    var aggregateQuery = Assignment.aggregate();
+  filters = JSON.parse(req.query.filters);
+  console.log(filters);
+    var aggregateQuery = Assignment.aggregate([
+    {
+      $match: {
+        $and: [
+          // {nom: {$regex: req.query.filters.nom, $options: 'i'}},
+          {rendu: filters.rendu},
+        ]
+      }
+    }]);
     Assignment.aggregatePaginate(aggregateQuery,
         {
           page: parseInt(req.query.page) || 1,
@@ -20,8 +30,9 @@ function getAssignments(req, res){
 // Récupérer un assignment par son id (GET)
 function getAssignment(req, res){
     let assignmentId = req.params.id;
-    Assignment.findOne({_id: assignmentId}, (err, assignment) =>{
-      if(err){res.send(err)}
+    Assignment.findOne({_id: assignmentId}, (err, assignment) => {
+      if(err)
+        res.send(err)
       res.json(assignment);
     })
 }
