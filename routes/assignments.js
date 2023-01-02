@@ -50,6 +50,7 @@ function postAssignment(req, res){
     assignment.rendu = req.body.rendu;
     assignment.grade = req.body.grade;
     assignment.subject = req.body.subject;
+    assignment.comment = req.body.comment;
 
     console.log("POST assignment reçu :");
     console.log(assignment)

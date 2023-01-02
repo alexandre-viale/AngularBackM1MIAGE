@@ -27,6 +27,7 @@ function postSubject(req, res){
     subject._id = new ObjectID();
     subject.name = req.body.name;
     subject.teacher = req.body.teacher;
+    subject.preview = req.body.preview;
 
     console.log("POST subject reçu :");
     console.log(subject)

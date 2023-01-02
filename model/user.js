@@ -7,7 +7,8 @@ const UserSchema = Schema({
     username: String,
     email: String,
     password: String,
-    type: String
+    type: String,
+    preview: String
 });
 // C'est à travers ce modèle Mongoose qu'on pourra faire le CRUD
 module.exports = mongoose.model('User', UserSchema);
