@@ -65,6 +65,9 @@ app.route(prefix + '/subjects/:id')
   .get(auth.authenticateToken, subject.getSubject)
   .delete(auth.authenticateToken, subject.deleteSubject);
 
+app.route(prefix + '/users/:id')
+  .get(auth.authenticateToken, user.getUser)
+
 app.route(prefix + '/user/login')
   .post(user.login);
 // On démarre le serveur

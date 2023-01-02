@@ -30,6 +30,16 @@ const login = (req, res) => {
   );
 }
 
+// Récupérer un user par son id (GET)
+function getUser(req, res){
+  let userId = req.params.id;
+  console.log(req.params.id);
+  User.findOne({_id: userId}, (err, subject) =>{
+    if(err){res.send(err)}
+    res.json(subject);
+  })
+}
+
 module.exports = {
-  login
+  login, getUser
 }
