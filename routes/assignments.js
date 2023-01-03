@@ -1,4 +1,5 @@
 const Assignment = require('../model/assignment');
+const User = require('../model/User');
 var ObjectID = require('mongodb').ObjectID;
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res){
@@ -43,6 +44,15 @@ function getAssignment(req, res){
 
 // Ajout d'un assignment (POST)
 function postAssignment(req, res){
+  if(!req.body.nom) {
+    res.status(400).json({message: 'Missing name parameter'});return;
+  }
+  if(!req.body.dateRendu) {
+    res.status(400).json({message: 'Missing dateRendu parameter'});return;
+  }
+  if(!req.body.subject) {
+    res.status(400).json({message: 'Missing subject parameter'});return;
+  }
     let assignment = new Assignment();
     assignment._id = new ObjectID();
     assignment.nom = req.body.nom;
@@ -51,12 +61,8 @@ function postAssignment(req, res){
     assignment.grade = req.body.grade;
     assignment.subject = req.body.subject;
     assignment.comment = req.body.comment;
-
     console.log("POST assignment reçu :");
-    console.log(assignment)
-
     assignment.save( (err) => {
-      console.log(err);
       if(err){
           res.json(err);
       }
@@ -66,10 +72,31 @@ function postAssignment(req, res){
 
 // Update d'un assignment (PUT)
 function updateAssignment(req, res) {
+  if(!req.body._id) {
+    res.status(400).json({message: 'Missing id parameter'}); return ;
+  }
+  if(!req.body.nom) {
+    res.status(400).json({message: 'Missing name parameter'});return;
+  }
+  if(!req.body.dateRendu) {
+    res.status(400).json({message: 'Missing dateRendu parameter'});return;
+  }
+  if(!req.body.rendu) {
+    res.status(400).json({message: 'Missing rendu parameter'});return;
+  }
+  if(!req.body.grade) {
+    res.status(400).json({message: 'Missing grade parameter'});return;
+  }
+  if(!req.body.subject) {
+    res.status(400).json({message: 'Missing subject parameter'});return;
+  }
+  if(!req.body.comment) {
+    res.status(400).json({message: 'Missing comment parameter'}); return;
+  }
+
     console.log("UPDATE recu assignment : ");
     Assignment.findByIdAndUpdate(req.body._id, req.body, {new: true}, (err, assignment) => {
         if (err) {
-            console.log(err);
             res.send(err)
         } else {
             console.log(assignment);
@@ -82,12 +109,18 @@ function updateAssignment(req, res) {
 
 // suppression d'un assignment (DELETE)
 function deleteAssignment(req, res) {
+  if(!req.params.id) {
+    res.status(400).json({message: 'Missing id parameter'}); return ;
+  }
+  if(res.locals.user.type !== 'admin') {
+    res.status(403).json({message: 'Need to be admin to delete an assignment'}); return;
+  }
   Assignment.findByIdAndRemove(req.params.id, (err, assignment) => {
       if (err) {
           res.send(err);
       }
-      res.json({message: 'deleted'})
-      // res.json({message: `${assignment.nom} deleted`});
+        res.json({message: `Successfully deleted assignment ${assignment.nom}`})
+      
   })
 }
 

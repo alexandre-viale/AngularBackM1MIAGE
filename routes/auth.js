@@ -10,7 +10,7 @@ const authenticateToken = (req, res, next) => {
     if (err) {
       return res.sendStatus(401);
     }
-    req.body = Object.assign(req.body, user);
+    res.locals = user;
     next();
     },
   )

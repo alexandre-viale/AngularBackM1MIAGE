@@ -48,21 +48,21 @@ let port = process.env.PORT || 8010;
 const prefix = '/api';
 
 app.route(prefix + '/assignments')
-  .get(auth.authenticateToken, assignment.getAssignments)
+  .get(assignment.getAssignments)
   .post(auth.authenticateToken, assignment.postAssignment)
   .put(auth.authenticateToken, assignment.updateAssignment);
 
 app.route(prefix + '/assignments/:id')
-  .get(auth.authenticateToken, assignment.getAssignment)
+  .get(assignment.getAssignment)
   .delete(auth.authenticateToken, assignment.deleteAssignment);
   
 app.route(prefix + '/subjects')
-  .get(auth.authenticateToken, subject.getSubjects)
+  .get(subject.getSubjects)
   .post(auth.authenticateToken, subject.postSubject)
   .put(auth.authenticateToken, subject.updateSubject);
 
 app.route(prefix + '/subjects/:id')
-  .get(auth.authenticateToken, subject.getSubject)
+  .get(subject.getSubject)
   .delete(auth.authenticateToken, subject.deleteSubject);
 
 app.route(prefix + '/users/:id')

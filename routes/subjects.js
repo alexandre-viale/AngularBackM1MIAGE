@@ -6,15 +6,16 @@ function getSubjects(req, res){
       if(err){
           res.send(err)
       }
-
       res.send(subjects);
   });
 }
 
 // Récupérer un subject par son id (GET)
 function getSubject(req, res){
+    if(!req.params.id) {
+        res.status(400).json({message: 'Missing id parameter'}); return;
+    }
     let subjectId = req.params.id;
-    console.log(req.params.id);
     Subject.findOne({_id: subjectId}, (err, subject) =>{
       if(err){res.send(err)}
       res.json(subject);
@@ -23,6 +24,18 @@ function getSubject(req, res){
 
 // Ajout d'un subject (POST)
 function postSubject(req, res){
+    if(!req.body.name) {
+        res.status(400).json({message: 'Missing name parameter'});return;
+    }
+    if(!req.body.teacher) {
+        res.status(400).json({message: 'Missing teacher parameter'}); return;
+    }
+    if(!req.body.preview) {
+        res.status(400).json({message: 'Missing preview parameter'}); return;
+    }
+    if(res.locals.user.type !== 'admin') {
+        res.status(403).json({message: 'Forbidden, need to be admin'}); return;
+    }
     let subject = new Subject();
     subject._id = new ObjectID();
     subject.name = req.body.name;
@@ -30,7 +43,6 @@ function postSubject(req, res){
     subject.preview = req.body.preview;
 
     console.log("POST subject reçu :");
-    console.log(subject)
 
     subject.save( (err) => {
       console.log(err);
@@ -43,8 +55,13 @@ function postSubject(req, res){
 
 // Update d'un subject (PUT)
 function updateSubject(req, res) {
+    if(!req.params.id) {
+        res.status(400).json({message: 'Missing id parameter'});return;
+    }
+    if(res.locals.user.type !== 'admin') {
+        res.status(403).json({message: 'Forbidden, need to be admin'});return;
+    }
     console.log("UPDATE recu subject : ");
-    console.log(req.body);
     Subject.findByIdAndUpdate(req.body._id, req.body, {new: true}, (err, subject) => {
         if (err) {
             console.log(err);
@@ -59,13 +76,18 @@ function updateSubject(req, res) {
 
 // suppression d'un subject (DELETE)
 function deleteSubject(req, res) {
-
-  Subject.findByIdAndRemove(req.params.id, (err, subject) => {
+    if(!req.params.id) {
+        res.status(400).json({message: 'Missing id parameter'});return;
+    }
+    if(res.locals.user.type !== 'admin') {
+        res.status(403).json({message: 'Forbidden, need to be admin'});return;
+    }
+    Subject.findByIdAndRemove(req.params.id, (err, subject) => {
       if (err) {
           res.send(err);
       }
       res.json({message: `${subject.nom} deleted`});
-  })
+    })
 }
 
 

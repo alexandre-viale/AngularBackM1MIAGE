@@ -16,24 +16,25 @@ const login = (req, res) => {
       if(err)
         throw new Error(err);
       if(!user){
-        res.status(404).send("This email or username doesn't exists.");
+        res.status(404).json({message: 'User not found'})
         return;
       }
       if(hashPassword(req.body.password) === user.password){
         user.password = undefined;
-        res.status(200).send({user, accessToken: auth.generateAccessToken(user)});
+        res.status(200).json({user, accessToken: auth.generateAccessToken(user)});
       }
       else{
-        res.status(401).send("Incorrect password.");
+        res.status(403).json({message: 'Wrong password'});
       }
     }
   );
 }
 
-// Récupérer un user par son id (GET)
 function getUser(req, res){
+  if(!req.params.id) {
+    res.status(400).json({message: 'Missing id parameter'});
+  }
   let userId = req.params.id;
-  console.log(req.params.id);
   User.findOne({_id: userId}, (err, subject) =>{
     if(err){res.send(err)}
     res.json(subject);
