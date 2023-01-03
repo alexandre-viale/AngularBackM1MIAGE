@@ -6,11 +6,7 @@ const login = (req, res) => {
   if(!req.body.password){ res.status(400).send("Please provide password attribute."); return; }
   User.findOne(
     {
-      "$or":
-      [
-        { userName :  req.body.emailOrUsername },
-        { email  :  req.body.emailOrUsername }
-      ]
+      username: req.body.username
     },
     (err, user) => {
       if(err)
