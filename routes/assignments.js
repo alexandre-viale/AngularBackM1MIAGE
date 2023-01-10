@@ -61,6 +61,7 @@ function postAssignment(req, res){
     assignment.grade = req.body.grade;
     assignment.subject = req.body.subject;
     assignment.comment = req.body.comment;
+    assignment.owner = req.body.owner;
     console.log("POST assignment reçu :");
     assignment.save( (err) => {
       if(err){
@@ -92,6 +93,9 @@ function updateAssignment(req, res) {
   }
   if(!req.body.comment) {
     res.status(400).json({message: 'Missing comment parameter'}); return;
+  }
+  if(!req.body.owner) {
+    res.status(400).json({message: 'Missing owner parameter'}); return;
   }
 
     console.log("UPDATE recu assignment : ");
