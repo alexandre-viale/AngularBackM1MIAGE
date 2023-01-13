@@ -1,5 +1,5 @@
 const Assignment = require('../model/assignment');
-const User = require('../model/User');
+const User = require('../model/user');
 var ObjectID = require('mongodb').ObjectID;
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res){

@@ -1,4 +1,4 @@
-const User = require('../model/User');
+const User = require('../model/user');
 const { hashPassword } = require('../utils');
 const auth = require('./auth');
 const login = (req, res) => {
