@@ -70,6 +70,9 @@ app.route(prefix + '/users/:id')
 
 app.route(prefix + '/user/login')
   .post(user.login);
+
+app.route(prefix + '/')
+  .get((req, res) => res.send('Hello World with Express'));
 // On démarre le serveur
 app.listen(port, "0.0.0.0");
 console.log('Serveur démarré sur http://localhost:' + port);
