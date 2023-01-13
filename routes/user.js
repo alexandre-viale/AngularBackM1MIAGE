@@ -1,10 +1,10 @@
-import { findOne } from '../model/User';
-import { hashPassword } from '../utils';
-import { generateAccessToken } from './auth';
+const User = require('../model/User');
+const { hashPassword } = require('../utils');
+const auth = require('./auth');
 const login = (req, res) => {
   if(!req.body.username){ res.status(400).send("Please provide emailOrUserName attribute."); return; }
   if(!req.body.password){ res.status(400).send("Please provide password attribute."); return; }
-  findOne(
+  User.findOne(
     {
       username: req.body.username
     },
@@ -17,7 +17,7 @@ const login = (req, res) => {
       }
       if(hashPassword(req.body.password) === user.password){
         user.password = undefined;
-        res.status(200).json({user, accessToken: generateAccessToken(user)});
+        res.status(200).json({user, accessToken: auth.generateAccessToken(user)});
       }
       else{
         res.status(403).json({message: 'Wrong password'});
@@ -31,12 +31,12 @@ function getUser(req, res){
     res.status(400).json({message: 'Missing id parameter'});
   }
   let userId = req.params.id;
-  findOne({_id: userId}, (err, subject) =>{
+  User.findOne({_id: userId}, (err, subject) =>{
     if(err){res.send(err)}
     res.json(subject);
   })
 }
 
-export default {
+module.exports = {
   login, getUser
 }
