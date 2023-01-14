@@ -47,14 +47,16 @@
  ## Installation
  
  1. Angular digital workspace requires [Node.js](https://nodejs.org/) to run.
- 2. Download the project from this repository and extract it in your computer.
+
+ 2. Download the project from [this repository](https://github.com/alexandre-viale/AngularFrontM1MIAGE) and extract it in your computer.
+
+ 3. Open a command line or terminal window and navigate to the project directory. Then, run the following command to install the project's dependencies:
+ 
  4. Set up the environment variables in the .env file. You can use the .env.example file as a template. If you want to use the database provided by us,you can use the following values: 
 ```sh
   MONGO_URI=mongodb+srv://alex:alex@cluster0.ioyvs.mongodb.net/assignments?retryWrites=true&w=majority
   ACCESS_TOKEN_SECRET = //your secret
 ```
- 3. Open a command line or terminal window and navigate to the project directory. Then, run the following command to install the project's dependencies:
- 
 ```sh
  npm install
 ```
@@ -65,8 +67,8 @@
 ```
  
  ## Development team
- - [VIALE Alexandre](),
- - [LEDIG Ian]().
+ - [VIALE Alexandre](https://github.com/alexandre-viale),
+ - [LEDIG Ian](https://github.com/ian-ledig).
  
  ## License
  
