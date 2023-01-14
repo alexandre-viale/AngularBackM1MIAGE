@@ -66,7 +66,7 @@ app.route(prefix + '/subjects/:id')
   .delete(auth.authenticateToken, subject.deleteSubject);
 
 app.route(prefix + '/users/:id')
-  .get(auth.authenticateToken, user.getUser)
+  .get(user.getUser)
 
 app.route(prefix + '/user/login')
   .post(user.login);
