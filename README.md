@@ -1,7 +1,7 @@
-# Angular digital workspace
+# My Study Life
  ### Backend
  
- Angular digital workspace is a website where users can see their assignments, subjects, marks, edit them and admins can manage all the users content.
+ My Study Life is a website where users can see their assignments, subjects, marks, edit them and admins can manage all the users content.
  
  ## Video presenting the app
  https://youtu.be/IHyzLiQfI7Y
@@ -9,7 +9,7 @@
  ## Features
  
 -  **Secure JWT login**
-	- The JWT login in handled in front-end and also in back-end. It means that even if you bypass the angular application by trying custom queries and you don't have a JWT token for admin user, the back-end will block you if you want to delete an assignment for example.
+	- The JWT login is handled in front-end and also in back-end. It means that even if you bypass the angular application by trying custom queries and you don't have a JWT token for admin user, the back-end will block you if you want to delete an assignment for example.
 ---
 -  **Users permissions**
 	-  The user has the ability to create or modify but not to delete.
